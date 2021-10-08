@@ -57,7 +57,7 @@ jobs:
             echo "Job Fails Flag"
             return 1
       - destory_env
-        when: on_fail
+          when: on_fail
 
     
 
