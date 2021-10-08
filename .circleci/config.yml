@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Create Cloudformation Stack Udacity-CircleCI
           command: |
-            echo "Job Fails Flag"
+#            echo "Job Fails Flag"
             return 1
       - destroy_environment
 
