@@ -4,6 +4,16 @@ version: 2.1
 orbs:
     aws-cli: circleci/aws-cli@2.0.3
 
+commands:
+  destory_env:
+    steps:
+      - run:
+          name: Destory Env
+          commans:  |
+              aws cloudformation delete-stack \
+              --stack-name Udacity-CircleCI \
+              --region us-east-1              
+
 jobs:
   create_infrastructure: 
     docker:
@@ -36,11 +46,29 @@ jobs:
           command: |
             ls -la
             ansible-playbook -i inventory.txt main-remote.yml
+  smoke_test: 
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Create Cloudformation Stack Udacity-CircleCI
+          command: |
+            echo "Job Fails Flag"
+            return 1
+      - destory_env
+        when: on_fail
+
+    
 
 workflows:
   Create-Delete-workflow:
     jobs:
       - create_infrastructure
+      - smoke_test:
+          requires:
+            - create_infrastructure
+
 #      - config_playbook
 #      - delete_infrastructure:
 #        requires:
