@@ -9,7 +9,7 @@ commands:
     steps:
       - run:
           name: Destory Env
-          commans:  |
+          command:  |
               aws cloudformation delete-stack \
               --stack-name Udacity-CircleCI \
               --region us-east-1              
